@@ -26,7 +26,7 @@ export default function ShukkaEntry() {
             <div className="flex">
                 {/* Sidebar */}
                 <Sidebar />
-                <div className="flex-1 p-6">
+                <div className=" w-[80rem] flex-1 p-6">
                     <div className="flex pb-5">
                         <h1 className="text-3xl font-black px-8">出荷登録</h1>
                         <div id="toggle-button" className="flex items-center space-x-1 border border-gray-400 rounded-full p-0.5">

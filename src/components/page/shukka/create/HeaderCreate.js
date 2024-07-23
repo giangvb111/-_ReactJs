@@ -9,6 +9,9 @@ export default function HeaderCreate() {
     const [nouhinsakiList, setNouhinsakiList] = useState([])
     const [tantoshaList, setTantoshaList] = useState([])
     const [tanabanList, setTanabanList] = useState([])
+    const [jyuchubiBgColor, setJyuchubiBgColor] = useState('bg-rose-300/75');
+    const [shukkaYoteibiBgColor, setShukkaYoteibiBgColor] = useState('bg-rose-300/75');
+    const [nouhinsakiIdBgColor, setNouhinsakiIdBgColor] = useState('bg-rose-300/75');
     const dispatch = useDispatch();
 
     // 納品先リスト取得
@@ -81,6 +84,38 @@ export default function HeaderCreate() {
             [name]: value,
         }));
     };
+    const handleForcusJyuchubi = () => {
+        setJyuchubiBgColor('')
+    }
+    const handleBlurJyuchubi = (event) => {
+        if (event.target.value === '') {
+            setJyuchubiBgColor('bg-rose-300/75')
+        }else{
+            setJyuchubiBgColor('')
+        }
+    }
+
+    const handleForcusShukkaYoteibi = () => {
+        setShukkaYoteibiBgColor('')
+    }
+    const handleBlurShukkaYoteibi = (event) => {
+        if (event.target.value === '') {
+            setShukkaYoteibiBgColor('bg-rose-300/75')
+        }else{
+            setShukkaYoteibiBgColor('')
+        }
+    }
+
+    const handleForcusNouhinsakiId = () => {
+        setNouhinsakiIdBgColor('')
+    }
+    const handleBlurNouhinsakiId = (event) => {
+        if (event.target.value === '') {
+            setNouhinsakiIdBgColor('bg-rose-300/75')
+        }else{
+            setNouhinsakiIdBgColor('')
+        }
+    }
 
     console.log("shukkaHeader", shukkaHeader);
 
@@ -98,7 +133,9 @@ export default function HeaderCreate() {
                     <div className="w-9/12">
                         <input
                             type="date"
-                            className="mx-2 border border-slate-500/50 rounded bg-rose-300/75"
+                            onFocus={handleForcusJyuchubi}
+                            onBlur={(e) => handleBlurJyuchubi(e)}
+                            className={`mx-2 border border-slate-500/50 rounded ${jyuchubiBgColor}`}
                             name="jyuchubi"
                             value={shukkaHeader.jyuchubi}
                             onChange={(event) =>
@@ -117,7 +154,9 @@ export default function HeaderCreate() {
                     <div className="w-9/12">
                         <input
                             type="date"
-                            className="mx-2 border border-slate-500/50 rounded bg-rose-300/75"
+                            onFocus={handleForcusShukkaYoteibi}
+                            onBlur={(e) => handleBlurShukkaYoteibi(e)}
+                            className={`mx-2 border border-slate-500/50 rounded ${shukkaYoteibiBgColor}`}
                             name="shukkaYoteibi"
                             value={shukkaHeader.shukkaYoteibi}
                             onChange={(event) =>
@@ -136,9 +175,11 @@ export default function HeaderCreate() {
                         </div>
                         <div className="w-6/12">
                             <select
-                                className="mx-2 border border-slate-500/50 rounded w-32 bg-rose-300/75"
+                                className={`mx-2 border border-slate-500/50 rounded w-32 ${nouhinsakiIdBgColor}`}
                                 name="nouhinsakiId"
                                 id=""
+                                onFocus={handleForcusNouhinsakiId}
+                                onBlur={(e) => handleBlurNouhinsakiId(e)}
                                 value={shukkaHeader.nouhinsakiId}
                                 onChange={(event) => handleOnchangeShukkaHeader(event)}
                             >

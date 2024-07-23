@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import ShukkaIchiran from './components/page/shukka/list/ShukkaIchiran.js';
 import ShukkaEntry from './components/page/shukka/create/ShukkaEntry.js';
