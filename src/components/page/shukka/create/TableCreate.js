@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { soukoListSelector } from '../../../../redux/selector';
 import { API_BASE_URL } from '../../../../constants';
 import axios from 'axios';
+import { shukkaHeaderEntry } from '../../../../redux/selector';
+import { showMessageToats, updateShukkaHeaderEntry } from '../../../../redux/actions';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function TableCreate() {
 
     const [seihinList, setSeihinList] = useState([]);
     const [soukoList, setSoukoList] = useState([]);
+    const [juchuKingaku, setJuchuKingaku] = useState('');
+    const [shohizeiGaku, setShohizeiGaku] = useState(3);
+    const [gokeiKingaku, setGokeiKingaku] = useState('');
+    const shukkaHeader = useSelector(shukkaHeaderEntry);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [shukkaMesaiList, setShukkaMesaiList] = useState([
         {
             shukkaMesaiNo: '出荷明細',
@@ -25,7 +34,7 @@ export default function TableCreate() {
         }
     ]);
 
-    // api get list seihin
+    // 製品リストを取得
     const fetchSeihin = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/seihin/get-list`);
@@ -35,7 +44,7 @@ export default function TableCreate() {
         }
     };
 
-    // api get list souko
+    // 倉庫リストを取得
     const fetchSouko = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/souko/get-list`);
@@ -48,6 +57,8 @@ export default function TableCreate() {
         fetchSeihin();
         fetchSouko();
     }, [])
+
+    console.log("shukkaHeader >>", shukkaHeader);
 
     // get seihin name autofill when change seihincode
     const handleChangeSeihin = (index, event) => {
@@ -93,31 +104,169 @@ export default function TableCreate() {
 
         setShukkaMesaiList(updatedList);
     };
-    console.log("shukkaMesaiList =>>", shukkaMesaiList);
+
+    const handleChangeComment = (event) => {
+        dispatch(updateShukkaHeaderEntry(event.target.value))
+    }
+
+    useEffect(() => {
+        const newTotalKingaku = shukkaMesaiList.reduce((acc, item) => {
+            const kingakuNumber = parseFloat(item.kingaku) || 0;
+            return acc + kingakuNumber;
+        }, 0);
+        setJuchuKingaku(newTotalKingaku);
+    }, [shukkaMesaiList]);
+
+    useEffect(() => {
+        setShohizeiGaku((isNaN(juchuKingaku) ? 0 : parseFloat(juchuKingaku * 0.1).toFixed(3)));
+    }, [juchuKingaku])
+
+    useEffect(() => {
+        setGokeiKingaku((isNaN(juchuKingaku) ? 0 : juchuKingaku + parseFloat(shohizeiGaku)))
+    }, [shohizeiGaku])
+
+    const handleCheckboxChange = (index) => {
+        const newShukkaMesaiList = [...shukkaMesaiList];
+        newShukkaMesaiList[index].isChecked = !newShukkaMesaiList[index].isChecked;
+        setShukkaMesaiList(newShukkaMesaiList);
+    };
+
+    const handleOnClickButtonCopy = () => {
+        // Lấy các phần tử đã được check từ danh sách
+        const checkedItems = shukkaMesaiList.filter((item) => item.isChecked);
+
+        // Sao chép các phần tử đã được check vào danh sách
+        const updatedList = [...shukkaMesaiList, ...checkedItems.map((item) => ({ ...item, isChecked: false }))];
+        setShukkaMesaiList(updatedList);
+    };
+
+    const handleOnClickButtonDelete = () => {
+        // Lọc ra các phần tử không được check từ danh sách
+        const updatedList = shukkaMesaiList.filter((item) => !item.isChecked);
+
+        setShukkaMesaiList(updatedList);
+    }
+
+    const shukkaDto = {
+        shukkaHeader,
+        shukkaMesaiList
+    }
+
+    const attributeToats = {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+    }
+
+    const handleButtonEntry = async () => {
+        console.log("shukkaHeader >>>", shukkaHeader);
+        const errors = [];
+
+        if (!shukkaHeader.jyuchubi) {
+            errors.push("受注日は必須入力項目です。");
+        }
+
+        if (!shukkaHeader.shukkaYoteibi) {
+            errors.push("出荷予定日は必須入力項目です。");
+        }
+
+        if (!shukkaHeader.nouhinsakiId) {
+            errors.push("納品先は必須入力項目です。");
+        }
+
+        if (errors.length > 0) {
+            errors.forEach(error => {
+                toast.error(error, attributeToats);
+            });
+            return;
+        }
+
+        shukkaMesaiList.forEach((item, index) => {
+            if (!item.seihinId) {
+                errors.push(`出荷明細[${index + 1}]製品コードは必須入力項目です。`);
+            }
+
+            if (!item.shukkaYoteiSuryo) {
+                errors.push(`出荷明細[${index + 1}]数量は必須入力項目です。`);
+            }
+
+            if (!item.soukoId) {
+                errors.push(`出荷明細[${index + 1}]倉庫は必須入力項目です。`);
+            }
+
+            if (!item.tanabanId) {
+                errors.push(`出荷明細[${index + 1}]棚番は必須入力項目です。`);
+            }
+        })
+
+        if (errors.length > 0) {
+            errors.forEach(error => {
+                toast.error(error, attributeToats);
+            });
+            return;
+        }
+
+        try {
+            const res = await axios.post(`${API_BASE_URL}/shukka/create`, shukkaDto)
+
+            if (res.data.status === 1) {
+                navigate("/shukka-success")
+            } else {
+                console.log("error", res.message);
+            }
+        } catch (error) {
+            console.log("error catch =>>", error)
+        }
+    }
 
     return (
         <>
-            <div className="overflow-x-scroll overflow-y-scroll max-h-96 max-w-max">
+            <div className="flex justify-between pb-3">
+                <div>
+                    <button className="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] hover:bg-cyan-600/75">
+                        製品を選ぶ
+                    </button>
+                    <button className="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] mr-4 ml-4 hover:bg-cyan-600/75"
+                        onClick={handleOnClickButtonCopy}
+                    >
+                        行複写
+                    </button>
+                    <button className="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] hover:bg-cyan-600/75"
+                        onClick={handleOnClickButtonDelete}
+                    >
+                        行削除
+                    </button>
+                </div>
+            </div>
+            <div className="overflow-x-scroll overflow-y-scroll max-h-56 max-w-max">
                 <table className="bg-white border-collapse border border-gray-300 rounded-md shadow-md overflow-scroll">
                     <thead className="bg-cyan-600 text-white sticky top-0 z-10 py-8">
                         <tr>
                             <th className="py-2 border border-gray-300 w-10"> </th>
                             <th className="py-2 border border-gray-300 w-36">製品コード</th>
-                            <th className="py-2 border border-gray-300 ">製品名</th>
-                            <th className="py-2 border border-gray-300 w-36">出荷倉庫</th>
-                            <th className="py-2 border border-gray-300 ">棚番</th>
-                            <th className="py-2 border border-gray-300 ">数量</th>
+                            <th className="py-2 border border-gray-300 w-48">製品名</th>
+                            <th className="py-2 border border-gray-300 w-40">出荷倉庫</th>
+                            <th className="py-2 border border-gray-300 w-32">棚番</th>
+                            <th className="py-2 border border-gray-300 w-28">数量</th>
                             <th className="py-2 border border-gray-300 w-36">ロットNo</th>
-                            <th className="py-2 border border-gray-300 ">単価</th>
-                            <th className="py-2 border border-gray-300">金額</th>
-                            <th className="py-2 border border-gray-300 w-36">メモ欄</th>
+                            <th className="py-2 border border-gray-300 w-28">単価</th>
+                            <th className="py-2 border border-gray-300 w-28">金額</th>
+                            <th className="py-2 border border-gray-300 w-60">メモ欄</th>
                         </tr>
                     </thead>
                     <tbody className="overflow-y-auto">
                         {shukkaMesaiList.map((item, index) => (
-                            <tr className="bg-gray-50" key={index}>
-                                <td className="flex justify-center items-center text-center">
-                                    <input type="checkbox" className="my-3" />
+                            <tr className="bg-gray-50" key={index} data-row-id={index} >
+                                <td className="text-center align-middle border border-gray-300 w-10">
+                                    <input type="checkbox" className="my-3"
+                                        checked={item.isChecked}
+                                        onChange={() => handleCheckboxChange(index)}
+                                    />
                                 </td>
                                 <td className="py-2 border border-gray-300">
                                     <select
@@ -136,7 +285,7 @@ export default function TableCreate() {
                                         ))}
                                     </select>
                                 </td>
-                                <td className="py-2 border border-gray-300 w-34">
+                                <td className="py-2 border border-gray-300 w-48">
                                     <input
                                         type="text"
                                         disabled
@@ -150,7 +299,7 @@ export default function TableCreate() {
                                 </td>
                                 <td className="py-2 border border-gray-300">
                                     <select
-                                        className="w-36 border border-slate-500 rounded"
+                                        className="w-40 border border-slate-500 rounded"
                                         id=""
                                         name='soukoId'
                                         value={item.soukoId}
@@ -185,7 +334,7 @@ export default function TableCreate() {
                                 <td className="py-2 border border-gray-300">
                                     <input
                                         type="text"
-                                        className="w-32 border border-slate-500 rounded text-center"
+                                        className="w-28 border border-slate-500 rounded text-center"
                                         name='shukkaYoteiSuryo'
                                         value={item.shukkaYoteiSuryo}
                                         onChange={(event) => {
@@ -209,7 +358,7 @@ export default function TableCreate() {
                                 <td className="py-2 border border-gray-300">
                                     <input
                                         type="text"
-                                        className="w-32 border border-slate-500 rounded text-center"
+                                        className="w-28 border border-slate-500 rounded text-center"
                                         name='tanka'
                                         value={item.tanka}
                                         onChange={(event) => {
@@ -222,7 +371,7 @@ export default function TableCreate() {
                                     <input
                                         type="text"
                                         disabled
-                                        className="border-transparent text-center"
+                                        className="border-transparent text-center w-28"
                                         name='kingaku'
                                         value={item.kingaku}
                                         onChange={(event) => {
@@ -233,7 +382,7 @@ export default function TableCreate() {
                                 <td className="py-2 border border-gray-300">
                                     <input
                                         type="text"
-                                        className="w-72 border border-slate-500 rounded"
+                                        className="w-60 border border-slate-500 rounded"
                                         name='tekiyoMesai'
                                         value={item.tekiyoMesai}
                                         onChange={(event) => {
@@ -254,8 +403,9 @@ export default function TableCreate() {
                         </label>
                         <input
                             type="text"
-                            className="w-36 border border-slate-500 rounded ml-3"
-                            disabled=""
+                            className="w-36 border border-slate-500 rounded ml-3 text-center"
+                            disabled
+                            value={juchuKingaku}
                         />
                     </div>
                     <div className="mx-10">
@@ -264,8 +414,9 @@ export default function TableCreate() {
                         </label>
                         <input
                             type="text"
-                            className="w-36 border border-slate-500 rounded ml-3"
-                            disabled=""
+                            className="w-36 border border-slate-500 rounded ml-3 text-center"
+                            disabled
+                            value={shohizeiGaku}
                         />
                     </div>
                     <div>
@@ -274,16 +425,19 @@ export default function TableCreate() {
                         </label>
                         <input
                             type="text"
-                            className="w-36 border border-slate-500 rounded ml-3"
-                            disabled=""
+                            className="w-36 border border-slate-500 rounded ml-3 text-center"
+                            disabled
+                            value={gokeiKingaku}
                         />
                     </div>
                 </div>
-                {/* button add */}
+
                 <div className='w-full'>
                     <div className="flex justify-end w-10/12">
                         <div>
-                            <button className="bg-cyan-600 text-white font-semibold h-8 px-8 text-lg transition-colors duration-150 rounded-lg focus:shadow-outline hover:bg-cyan-700">
+                            <button className="bg-cyan-600 text-white font-semibold h-8 px-8 text-lg transition-colors duration-150 rounded-lg focus:shadow-outline hover:bg-cyan-700"
+                                onClick={() => { handleButtonEntry() }}
+                            >
                                 登　録
                             </button>
                         </div>
@@ -299,7 +453,10 @@ export default function TableCreate() {
                                 コメントを残す
                             </label>
                         </div>
-                        <textarea defaultValue={""} className='bg-white border border-slate-500 w-full rounded' />
+                        <textarea defaultValue={""} className='bg-white border border-slate-500 w-full rounded'
+                            value={shukkaHeader.comment}
+                            onChange={(event) => handleChangeComment(event)}
+                        />
                     </div>
                 </div>
             </div>

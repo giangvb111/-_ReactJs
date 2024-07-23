@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../../navbar/Navbar'
 import Sidebar from '../../navbar/Sidebar'
 import Header from './Header'
@@ -10,8 +10,11 @@ import DataNotFound from './DataNotFound'
 export default function ShukkaIchiran() {
 
     const shukkaList = useSelector(shukkaListSelector)
+    const [subHeaderParams, setSubHeaderParams] = useState(false)
 
-    console.log("shukkaList =>..", shukkaList);
+    const handleButtonOption = () => {
+        setSubHeaderParams(!subHeaderParams)
+    }
 
     return (
         <>
@@ -20,9 +23,9 @@ export default function ShukkaIchiran() {
             <div className="flex">
                 {/* Sidebar */}
                 <Sidebar />
-                <div className="flex-1 p-6">
-                    <h1 className="text-3xl font-black">出荷一覧</h1>
-                    <div className="flex justify-between my-5">
+                <div className="flex-1 p-6 bg-zinc-100">
+                    <h1 className="text-3xl font-black"><span className='text-red-500 text-5xl mr-2'>●</span>出荷一覧</h1>
+                    <div className="flex justify-between my-5 ml-10">
                         <div>
                             <span className="text-xl font-semibold">状況 : </span>
                             <span>
@@ -52,13 +55,15 @@ export default function ShukkaIchiran() {
                             </span>
                         </div>
                         <div>
-                            <button className="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] mr-4 ml-4">
+                            <button className="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] mr-4 ml-4"
+                                onClick={handleButtonOption}
+                            >
                                 検索オプション
                             </button>
                         </div>
                     </div>
                     {/* Header */}
-                    <Header />
+                    <Header subHeaderParams={subHeaderParams} />
                     <div className="mx-auto">
 
                         {/* Table List */}

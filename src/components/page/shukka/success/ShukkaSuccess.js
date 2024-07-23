@@ -1,8 +1,15 @@
 import React from 'react'
 import Navbar from '../../navbar/Navbar'
 import Sidebar from '../../navbar/Sidebar'
+import { useNavigate } from 'react-router-dom'
 
 export default function ShukkaSuccess() {
+
+    const navigate = useNavigate()
+
+    const handleButtonNavigate = () => {
+        navigate("/shukka-entry")
+    }
     return (
         <>
             {/* Navbar */}
@@ -10,8 +17,8 @@ export default function ShukkaSuccess() {
             <div className="flex">
                 {/* Sidebar */}
                 <Sidebar />
-                <div className="flex-1 p-6">
-                    <div className="bg-white p-6 rounded-lg shadow-lg text-2xl">
+                <div className="flex-1 p-16">
+                    <div className="bg-white p-6 rounded-lg shadow-lg text-xl font-medium">
                         <div className="mb-4 text-center">
                             <button className="bg-cyan-600/50 text-white h-8 px-5 text-lg transition-colors duration-150 rounded-[5rem] focus:shadow-outline m-[auto]">
                                 出荷予定
@@ -35,7 +42,9 @@ export default function ShukkaSuccess() {
                             <button className="bg-gray-200 mr-3 px-4 py-2 rounded-lg hover:bg-cyan-600/75">
                                 出荷指示書
                             </button>
-                            <button className="bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-600/75">
+                            <button className="bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-600/75"
+                                onClick={handleButtonNavigate}
+                            >
                                 続けて出荷登録
                             </button>
                         </div>

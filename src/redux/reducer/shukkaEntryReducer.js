@@ -1,13 +1,27 @@
-import { GET_SOUKO_LIST } from "../../constants/actionTypes";
+import { GET_SHUKKA_HEADER_ENTRY, GET_SOUKO_LIST, SHOW_MESSAGE_TOATS, UPDATE_SHUKKA_HEADER_ENTRY } from "../../constants/actionTypes";
 
 const initState = []
 
 const shukkaEntryReducer = (state = initState, action) => {
-     console.log(state, action);
      switch (action.type) {
           case GET_SOUKO_LIST:
+               return action.payload
+
+          case GET_SHUKKA_HEADER_ENTRY:
                console.log(action.payload);
                return action.payload
+
+          case UPDATE_SHUKKA_HEADER_ENTRY:
+               return {
+                    ...state,
+                    comment: action.payload
+               }
+
+          case SHOW_MESSAGE_TOATS:
+               return {
+                    ...state,
+                    errMessage: action.payload
+               }
 
           default:
                return state;

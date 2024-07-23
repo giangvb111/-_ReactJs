@@ -3,7 +3,7 @@ import React from 'react'
 export default function Navbar() {
     return (
         <>
-            <div className="flex justify-between p-2 bg-white">
+            <div className="flex justify-between p-2 bg-white sticky top-0 z-10">
                 <div className="flex justify-center item-center pl-10">
                     <div className="text-3xl font-extrabold text-cyan-600 mr-4">eeeCLOUD</div>
                     <div>

@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { getColumns, searchShukka } from '../../../../redux/actions';
 import axios from 'axios';
 import { API_BASE_URL } from '../../../../constants'
-import { columnSelector } from '../../../../redux/selector';
 
-export default function Header() {
+
+export default function Header({ subHeaderParams }) {
 
     const [nouhinsakiList, setNouhinsakiList] = useState([])
     const [tantoshaList, setTantoshaList] = useState([])
     const [soukoList, setSoukoList] = useState([])
     const [tanabanList, setTanabanList] = useState([])
     const [columns, setColumns] = useState([])
-    const column = useSelector(columnSelector);
     const dispatch = useDispatch();
-
 
     const [shukkaSearchParams, setShukkaSearchParams] = useState(
         {
@@ -65,7 +63,6 @@ export default function Header() {
         }
     };
 
-    console.log("soukoList", soukoList);
     //棚番リスト取得
     const fetchTanabanList = async (soukoId) => {
         try {
@@ -93,6 +90,7 @@ export default function Header() {
         fetchColumns(1);
     }, [])
 
+    console.log("soukoList", soukoList)
 
     //Hamdle Change State Shukka Params
     const handleShukkaParamsChange = (event) => {
@@ -105,7 +103,6 @@ export default function Header() {
 
     const handleOnchangeSouko = (event) => {
         const selectedSoukoId = event.target.value;
-        // console.log("selectedSoukoId", selectedSoukoId);
         if (selectedSoukoId == '') {
             setTanabanList([])
         } else {
@@ -125,7 +122,7 @@ export default function Header() {
                     dispatch(getColumns(columns))
                     dispatch(searchShukka(res.data.message))
                 }
-                console.log(res.data.data);
+
             })
 
     }
@@ -175,139 +172,142 @@ export default function Header() {
                         />
                     </div>
                 </div>
-                <div className="flex justify-between border-b-2 border-white pb-2">
-                    <div className="flex-1 flex items-center">
-                        <label className="text-base font-normal w-60">出荷実績日</label>
-                        <input
-                            type="date"
-                            className="mx-2 border border-slate-500/50 rounded"
-                            name="shukkaJisseikiBiFrom"
-                            id=""
-                            value={shukkaSearchParams.shukkaJisseikiBiFrom}
-                            onChange={(event) => { handleShukkaParamsChange(event) }}
-                        />
-                        <span>~</span>
-                        <input
-                            type="date"
-                            className="mx-2 border border-slate-500/50 rounded"
-                            name="shukkaJisseikiBiTo"
-                            id=""
-                            value={shukkaSearchParams.shukkaJisseikiBiTo}
-                            onChange={(event) => { handleShukkaParamsChange(event) }}
-                        />
-                    </div>
-                    <div className="flex-1 flex items-center">
-                        <label className="text-base font-normal w-60">出荷倉庫・棚番</label>
-                        <select
-                            className="mx-2 border border-slate-500/50 rounded w-32"
-                            name="shukkaSoukoList"
-                            id=""
-                            value={shukkaSearchParams.shukkaSoukoList}
-                            onChange={(event) => {
-                                handleShukkaParamsChange(event)
-                                handleOnchangeSouko(event)
-                            }}
-                        >
-                            <option value="" />
-                            {soukoList.map(item => {
-                                <option key={item.soukoId} value={item.soukoId}>{item.soukoName}</option>
-                            })}
-                            {console.log(soukoList)}
-                        </select>
-                        <select
-                            className="mx-2 border border-slate-500/50 rounded w-28"
-                            name="shukkaTanabanList"
-                            id=""
-                            value={shukkaSearchParams.shukkaTanabanList}
-                            onChange={(event) => { handleShukkaParamsChange(event) }}
-                        >
-                            <option value="" />
-                            {tanabanList.length > 0 && tanabanList.map(item => (
-                                <option key={item.tanabanId} value={item.tanabanId}>{item.tanabanName}</option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-                <div className="flex justify-between border-b-2 border-white pb-2">
-                    <div className="flex-1 flex items-center">
-                        <label className="text-base font-normal w-60">納品先</label>
-                        <select
-                            className="mx-2 border border-slate-500/50 rounded w-32"
-                            name="nouhinsakiList"
-                            id=""
-                            value={shukkaSearchParams.nouhinsakiList}
-                            onChange={(event) => { handleShukkaParamsChange(event) }}
-                        >
-                            <option value="" />
-                            {nouhinsakiList.map(item => (
-                                <option key={item.nouhinsakiId} value={item.nouhinsakiId}>{item.nouhinsakiName}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="flex-1 flex items-center">
-                        <label className="text-base font-normal w-60">製品コード</label>
-                        <input
-                            className="mx-2 border border-slate-500/50 rounded w-72"
-                            name="seihinCodeList"
-                            id=""
-                            value={shukkaSearchParams.seihinCodeList}
-                            onChange={(event) => { handleShukkaParamsChange(event) }}
-                        />
-                    </div>
-                </div>
-                <div className="flex justify-between border-b-2 border-white pb-2">
-                    <div className="flex-1 flex items-center">
-                        <label className="text-base font-normal w-60">請求先</label>
-                        <select
-                            className="mx-2 border border-slate-500/50 rounded w-32"
-                            name="seikyuusaki"
-                            id=""
-                            value={shukkaSearchParams.seikyuusaki}
-                            onChange={(event) => { handleShukkaParamsChange(event) }}
-                        >
-                            <option value="" />
-                        </select>
-                    </div>
-                    <div className="flex-1 flex items-center">
-                        <label className="text-base font-normal w-60">製品名</label>
-                        <input
-                            type="text"
-                            className="mx-2 border border-slate-500/50 rounded w-72"
-                            name="seihinMeiList"
-                            id=""
-                            value={shukkaSearchParams.seihinMeiList}
-                            onChange={(event) => { handleShukkaParamsChange(event) }}
-                        />
-                    </div>
-                </div>
-                <div className="flex justify-between border-b-2 border-white pb-2">
-                    <div className="flex-1 flex items-center">
-                        <label className="text-base font-normal w-60">担当者</label>
-                        <select
-                            className="mx-2 border border-slate-500/50 rounded w-32"
-                            name="tantoshaList"
-                            id=""
-                            value={shukkaSearchParams.tantoshaList}
-                            onChange={(event) => { handleShukkaParamsChange(event) }}
-                        >
-                            <option value="" />
-                            {tantoshaList.map(item => (
-                                <option key={item.tantoshaId} value={item.tantoshaId}>{item.tantoshaName}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="flex-1 flex items-center">
-                        <label className="text-base font-normal w-60">キーワード</label>
-                        <input
-                            type="text"
-                            className="mx-2 border border-slate-500/50 rounded w-72"
-                            name="keywordList"
-                            id=""
-                            value={shukkaSearchParams.keywordList}
-                            onChange={(event) => { handleShukkaParamsChange(event) }}
-                        />
-                    </div>
-                </div>
+                {subHeaderParams &&
+                    <>
+                        <div className="flex justify-between border-b-2 border-white pb-2">
+                            <div className="flex-1 flex items-center">
+                                <label className="text-base font-normal w-60">出荷実績日</label>
+                                <input
+                                    type="date"
+                                    className="mx-2 border border-slate-500/50 rounded"
+                                    name="shukkaJisseikiBiFrom"
+                                    id=""
+                                    value={shukkaSearchParams.shukkaJisseikiBiFrom}
+                                    onChange={(event) => { handleShukkaParamsChange(event) }}
+                                />
+                                <span>~</span>
+                                <input
+                                    type="date"
+                                    className="mx-2 border border-slate-500/50 rounded"
+                                    name="shukkaJisseikiBiTo"
+                                    id=""
+                                    value={shukkaSearchParams.shukkaJisseikiBiTo}
+                                    onChange={(event) => { handleShukkaParamsChange(event) }}
+                                />
+                            </div>
+                            <div className="flex-1 flex items-center">
+                                <label className="text-base font-normal w-60">出荷倉庫・棚番</label>
+                                <select
+                                    className="mx-2 border border-slate-500/50 rounded w-32"
+                                    name="shukkaSoukoList"
+                                    id=""
+                                    value={shukkaSearchParams.shukkaSoukoList}
+                                    onChange={(event) => {
+                                        handleShukkaParamsChange(event)
+                                        handleOnchangeSouko(event)
+                                    }}
+                                >
+                                    <option value="" />
+                                    {soukoList.map(item => {
+                                        <option key={item.soukoId} value={item.soukoId}>{item.soukoName}</option>
+                                    })}
+                                </select>
+                                <select
+                                    className="mx-2 border border-slate-500/50 rounded w-28"
+                                    name="shukkaTanabanList"
+                                    id=""
+                                    value={shukkaSearchParams.shukkaTanabanList}
+                                    onChange={(event) => { handleShukkaParamsChange(event) }}
+                                >
+                                    <option value="" />
+                                    {tanabanList.length > 0 && tanabanList.map(item => (
+                                        <option key={item.tanabanId} value={item.tanabanId}>{item.tanabanName}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        <div className="flex justify-between border-b-2 border-white pb-2">
+                            <div className="flex-1 flex items-center">
+                                <label className="text-base font-normal w-60">納品先</label>
+                                <select
+                                    className="mx-2 border border-slate-500/50 rounded w-32"
+                                    name="nouhinsakiList"
+                                    id=""
+                                    value={shukkaSearchParams.nouhinsakiList}
+                                    onChange={(event) => { handleShukkaParamsChange(event) }}
+                                >
+                                    <option value="" />
+                                    {nouhinsakiList.map(item => (
+                                        <option key={item.nouhinsakiId} value={item.nouhinsakiId}>{item.nouhinsakiName}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="flex-1 flex items-center">
+                                <label className="text-base font-normal w-60">製品コード</label>
+                                <input
+                                    className="mx-2 border border-slate-500/50 rounded w-72"
+                                    name="seihinCodeList"
+                                    id=""
+                                    value={shukkaSearchParams.seihinCodeList}
+                                    onChange={(event) => { handleShukkaParamsChange(event) }}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex justify-between border-b-2 border-white pb-2">
+                            <div className="flex-1 flex items-center">
+                                <label className="text-base font-normal w-60">請求先</label>
+                                <select
+                                    className="mx-2 border border-slate-500/50 rounded w-32"
+                                    name="seikyuusaki"
+                                    id=""
+                                    value={shukkaSearchParams.seikyuusaki}
+                                    onChange={(event) => { handleShukkaParamsChange(event) }}
+                                >
+                                    <option value="" />
+                                </select>
+                            </div>
+                            <div className="flex-1 flex items-center">
+                                <label className="text-base font-normal w-60">製品名</label>
+                                <input
+                                    type="text"
+                                    className="mx-2 border border-slate-500/50 rounded w-72"
+                                    name="seihinMeiList"
+                                    id=""
+                                    value={shukkaSearchParams.seihinMeiList}
+                                    onChange={(event) => { handleShukkaParamsChange(event) }}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex justify-between border-b-2 border-white pb-2">
+                            <div className="flex-1 flex items-center">
+                                <label className="text-base font-normal w-60">担当者</label>
+                                <select
+                                    className="mx-2 border border-slate-500/50 rounded w-32"
+                                    name="tantoshaList"
+                                    id=""
+                                    value={shukkaSearchParams.tantoshaList}
+                                    onChange={(event) => { handleShukkaParamsChange(event) }}
+                                >
+                                    <option value="" />
+                                    {tantoshaList.map(item => (
+                                        <option key={item.tantoshaId} value={item.tantoshaId}>{item.tantoshaName}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="flex-1 flex items-center">
+                                <label className="text-base font-normal w-60">キーワード</label>
+                                <input
+                                    type="text"
+                                    className="mx-2 border border-slate-500/50 rounded w-72"
+                                    name="keywordList"
+                                    id=""
+                                    value={shukkaSearchParams.keywordList}
+                                    onChange={(event) => { handleShukkaParamsChange(event) }}
+                                />
+                            </div>
+                        </div>
+                    </>
+                }
                 <div className="flex justify-center py-4">
                     <button className="bg-cyan-600 text-white font-semibold h-8 px-5 text-base transition-colors duration-150 rounded-lg focus:shadow-outline hover:bg-cyan-700"
                         onClick={handleButtonSearch}
