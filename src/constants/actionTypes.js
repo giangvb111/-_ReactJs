@@ -1,0 +1,3 @@
+export const GET_SHUKKA_LIST = "GET_SHUKKA_LIST";
+export const GET_COLUMN_LIST = "GET_COLUMN_LIST";
+export const GET_SOUKO_LIST = "GET_SOUKO_LIST";

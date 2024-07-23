@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>eeeCLOUD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+    <div class="flex justify-between p-4 ml-[4rem]">
+        <div class="flex justify-center item-center">
+            <div class="text-4xl font-bold text-cyan-600 mr-4">eeeCLOUD</div>
+            <div>
+                <button
+                    class="bg-cyan-600 text-white h-10 px-5 text-lg transition-colors duration-150 rounded-lg focus:shadow-outline">Standard</button>
+            </div>
+        </div>
+        <div class="flex justify-center">
+            <button class="flex flex-col items-center justify-center w-8 h-6 space-y-1 m-[auto]">
+                <span class="block w-6 h-0.5 bg-cyan-600"></span>
+                <span class="block w-6 h-0.5 bg-cyan-600"></span>
+                <span class="block w-6 h-0.5 bg-cyan-600"></span>
+            </button>
+            <button
+                class="bg-slate-300 text-white h-8 px-5 text-lg transition-colors duration-150 rounded-[5rem] focus:shadow-outline m-[auto] mr-4 ml-4">
+                テービーテック
+            </button>
+            <span class="content-center">ログインユーザー：kashiwazaki</span>
+            <a href="#" class="ml-4 text-gray"><button
+                    class="bg-slate-400 text-white h-10 px-5 text-lg transition-colors duration-150 rounded-lg focus:shadow-outline hover:bg-slate-500">ログアウト</button></a>
+        </div>
+    </div>
+    <div class="flex">
+        <div
+            class="text-white w-80 h-screen p-6 pt-10 mt0 text-3xl flex flex-col items-center bg-cyan-600 leading-[4rem] font-black">
+
+        </div>
+        <div class="flex-1 p-6">
+            <div class="flex">
+                <h1 class="text-4xl font-black px-8">出荷登録</h1>
+                <button
+                    class="text-2xl h-8 px-5 bg-cyan-600 focus:bg-cyan-600 hover:bg-cyan-600/50 transition-colors duration-150 rounded-[5rem]">
+                    予定
+                </button>
+                <button
+                    class="text-2xl h-8 px-5 bg-cyan-600 focus:bg-cyan-600 hover:bg-cyan-600/50 transition-colors duration-150 rounded-[5rem]">
+                    実績
+                </button>
+            </div>
+
+            <!-- header param create -->
+            <div id="header-param" class="space-y-1 mx-10 my-8">
+                <div class="flex items-center border-b-2 border-white pb-2 w-full">
+                    <div class="flex w-3/12">
+                        <label class="text-2xl font-normal pr-16">1</label>
+                        <label class="text-2xl font-normal ">受注日<span class="text-red-500">*</span></label>
+                    </div>
+                    <div class="w-9/12">
+                        <input type="date" class="mx-2 border border-slate-500/50 rounded" name="" id="">
+                    </div>
+                </div>
+                <div class="flex items-center border-b-2 border-white pb-2 w-full">
+                    <div class="flex w-3/12">
+                        <label class="text-2xl font-normal pr-16">2</label>
+                        <label class="text-2xl font-normal ">出荷予定日<span class="text-red-500">*</span></label>
+                    </div>
+                    <div class="w-9/12">
+                        <input type="date" class="mx-2 border border-slate-500/50 rounded" name="" id="">
+                    </div>
+                </div>
+                <div class="flex items-center border-b-2 border-white pb-2 w-full">
+                    <div class="flex w-full items-center">
+                        <div class="flex w-6/12">
+                            <label class="text-2xl font-normal pr-16">3</label>
+                            <label class="text-2xl font-normal">納品先<span class="text-red-500">*</span></label>
+                        </div>
+                        <div class="w-6/12">
+                            <select class="mx-2 border border-slate-500/50 rounded w-32" name="" id="">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex w-full">
+                        <label for="" class="text-2xl">(</label>
+                        <label class="text-2xl font-normal mx-4">請求先</label>
+                        <input type="text" class="mx-4 border border-slate-500/50 rounded" name="" id="">
+                        <label for="" class="text-2xl">)</label>
+                    </div>
+                </div>
+                <div class="flex items-center border-b-2 border-white pb-2 w-full">
+                    <div class="flex w-3/12">
+                        <label class="text-2xl font-normal pr-16">4</label>
+                        <label class="text-2xl font-normal">担当者</label>
+                    </div>
+                    <div class="w-9/12">
+                        <select class="mx-2 border border-slate-500/50 rounded w-32" name="" id="">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex items-center border-b-2 border-white pb-2 w-full">
+                    <div class="flex w-3/12">
+                        <label class="text-2xl font-normal pr-16">5</label>
+                        <label class="text-2xl font-normal">件名</label>
+                    </div>
+                    <div class="w-9/12">
+                        <input type="text" class="mx-2 border border-slate-500/50 rounded w-full">
+                    </div>
+                </div>
+                <div class="flex items-center border-b-2 border-white pb-2 w-full">
+                    <div class="flex w-3/12">
+                        <label class="text-2xl font-normal pr-16">6</label>
+                        <label class="text-2xl font-normal">出荷区分</label>
+                    </div>
+                    <div class="w-9/12">
+                        <select class="mx-2 border border-slate-500/50 rounded w-32" name="" id="">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex items-center border-b-2 border-white pb-2 w-full">
+                    <div class="flex w-3/12">
+                        <label class="text-2xl font-normal pr-16">7</label>
+                        <label class="text-2xl font-normal">税端数処理</label>
+                    </div>
+                    <div class="w-9/12">
+                        <select class="mx-2 border border-slate-500/50 rounded w-32" name="" id="">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex items-center border-b-2 border-white pb-2 w-full">
+                    <div class="flex w-3/12">
+                        <label class="text-2xl font-normal pr-16">8</label>
+                        <label class="text-2xl font-normal">メモ</label>
+                    </div>
+                    <div class="w-9/12">
+                        <input type="text" class="mx-2 border border-slate-500/50 rounded w-full">
+                    </div>
+                </div>
+                <div class="flex justify-end py-4">
+                    <button
+                        class="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] mr-4 ml-4">検索オプション</button>
+                </div>
+            </div>
+
+            <!-- Table List -->
+            <div class="container mx-10 my-8">
+                <div class="flex justify-between pb-3">
+                    <div>
+                        <button
+                            class="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] hover:bg-cyan-600/75">
+                            製品を選ぶ
+                        </button>
+                        <button
+                            class="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] mr-4 ml-4 hover:bg-cyan-600/75">
+                            行複写
+                        </button>
+                        <button
+                            class="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] hover:bg-cyan-600/75">
+                            行削除
+                        </button>
+                    </div>
+                </div>
+                <div class="w-full">
+                    <table class="bg-white border-collapse border border-gray-300 rounded-md shadow-md overflow-x-auto">
+                        <thead class="bg-cyan-600 text-white">
+                            <tr>
+                                <th class="py-2 border border-gray-300 w-10"> </th>
+                                <th class="py-2 border border-gray-300 w-36">製品コード</th>
+                                <th class="py-2 border border-gray-300 ">製品名</th>
+                                <th class="py-2 border border-gray-300 w-36">出荷倉庫</th>
+                                <th class="py-2 border border-gray-300 ">棚番</th>
+                                <th class="py-2 border border-gray-300 ">数量</th>
+                                <th class="py-2 border border-gray-300 w-36">ロットNo</th>
+                                <th class="py-2 border border-gray-300 ">単価</th>
+                                <th class="py-2 border border-gray-300 ">金額</th>
+                                <th class="py-2 border border-gray-300 w-36">メモ欄</th>
+                            </tr>
+                        </thead>
+                        <tbody class="overflow-y-auto">
+                            <tr class="bg-gray-50">
+                                <td class="flex justify-center items-center text-center">
+                                    <input type="checkbox" class="my-3">
+                                </td>
+                                <td class="py-2 border border-gray-300">
+                                    <select class="w-36 border border-slate-500 rounded " id="">
+                                        <option value=""></option>
+                                        <option value="">1</option>
+                                        <option value="">2</option>
+                                    </select>
+                                </td>
+                                <td class="py-2 border border-gray-300 w-34">
+                                    <input type="text" disabled class="border-transparent">
+                                </td>
+                                <td class="py-2 border border-gray-300">
+                                    <select class="w-36 border border-slate-500 rounded" name="" id="">
+                                        <option value=""></option>
+                                    </select>
+                                </td>
+                                <td class="py-2 border border-gray-300">
+                                    <select class="w-32 border border-slate-500 rounded" name="tanaban" id="">
+                                        <option value=""></option>
+                                    </select>
+                                </td>
+                                <td class="py-2 border border-gray-300">
+                                    <input type="text" class="w-32 border border-slate-500 rounded">
+                                </td>
+                                <td class="py-2 border border-gray-300">
+                                    <input type="text" class="w-36 border border-slate-500 rounded" name="lotNo">
+                                </td>
+                                <td class="py-2 border border-gray-300">
+                                    <input type="text" class="w-32 border border-slate-500 rounded" name="tanka">
+                                </td>
+                                <td class="py-2 border border-gray-300 w-28">
+
+                                </td>
+                                <td class="py-2 border border-gray-300">
+                                    <input type="text" class="w-36 border border-slate-500 rounded" name="memo">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- footer -->
+                <div class="flex my-7">
+                    <div>
+                        <label for="" class="font-bold text-lg">受注金額</label>
+                        <input type="text" class="w-36 border border-slate-500 rounded" disabled>
+                    </div>
+
+                    <div class="mx-10">
+                        <label for="" class="font-bold text-lg">消費税額</label>
+                        <input type="text" class="w-36 border border-slate-500 rounded" disabled>
+                    </div>
+
+                    <div>
+                        <label for="" class="text-red-500 font-bold text-lg">合計金額</label>
+                        <input type="text" class="w-36 border border-slate-500 rounded" disabled>
+                    </div>
+                </div>
+                <!-- button add -->
+                <div class="flex justify-end">
+                    <div>
+                        <button
+                            class="bg-cyan-600 text-white font-semibold h-8 px-8 text-lg transition-colors duration-150 rounded-lg focus:shadow-outline hover:bg-cyan-700">登　録</button>
+                    </div>
+                    <div>
+                        <button
+                            class="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] hover:bg-cyan-600/75">下書きで登録</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="" class="font-bold text-lg">コメントを残す</label>
+                    <textarea></textarea>
+                </div>
+            </div>
+
+        </div>
+</body>
+
+</html>

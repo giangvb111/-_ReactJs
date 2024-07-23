@@ -1,0 +1,83 @@
+import React from 'react'
+import TableCreate from './TableCreate'
+import HeaderCreate from './HeaderCreate'
+import Navbar from '../../navbar/Navbar'
+import Sidebar from '../../navbar/Sidebar'
+
+export default function ShukkaEntry() {
+
+    const toggleButton = (event) => {
+        const toggleButton = document.getElementById('toggle-button');
+        const labels = toggleButton.querySelectorAll('label');
+
+        labels.forEach(label => {
+            label.classList.remove('bg-cyan-600', 'text-white');
+            label.classList.add('text-gray-500');
+        });
+
+        event.target.classList.add('bg-cyan-600', 'text-white');
+        event.target.classList.remove('text-gray-500');
+    }
+
+    return (
+        <>
+            {/* Navbar */}
+            <Navbar />
+            <div className="flex">
+                {/* Sidebar */}
+                <Sidebar />
+                <div className="flex-1 p-6">
+                    <div className="flex pb-5">
+                        <h1 className="text-3xl font-black px-8">出荷登録</h1>
+                        <div id="toggle-button" className="flex items-center space-x-1 border border-gray-400 rounded-full p-0.5">
+                            <input
+                                type="radio"
+                                id="planned"
+                                name="toggle"
+                                className="hidden"
+                                defaultChecked=""
+                            />
+                            <label
+                                htmlFor="planned"
+                                className="cursor-pointer bg-cyan-600 text-white rounded-full font-semibold px-4 py-2"
+                                onClick={(event) => { toggleButton(event) }}
+                            >
+                                予定
+                            </label>
+                            <input type="radio" id="actual" name="toggle" className="hidden" />
+                            <label
+                                htmlFor="actual"
+                                className="cursor-pointer text-gray-500 rounded-full font-semibold px-4 py-2"
+                                onClick={(event) => { toggleButton(event) }}
+                            >
+                                実績
+                            </label>
+                        </div>
+                    </div>
+                    {/* header param create */}
+                    <HeaderCreate />
+                    {/* Table List */}
+                    <div className="mx-10 my-8">
+                        <div className="flex justify-between pb-3">
+                            <div>
+                                <button className="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] hover:bg-cyan-600/75">
+                                    製品を選ぶ
+                                </button>
+                                <button className="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] mr-4 ml-4 hover:bg-cyan-600/75">
+                                    行複写
+                                </button>
+                                <button className="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] hover:bg-cyan-600/75">
+                                    行削除
+                                </button>
+                            </div>
+                        </div>
+                        {/* Table Create */}
+                        <TableCreate />
+
+                    </div>
+                </div>
+            </div>
+        </>
+
+    )
+}

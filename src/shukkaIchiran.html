@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>eeeCLOUD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+    <div class="flex justify-between p-4 ml-[4rem]">
+        <div class="flex justify-center item-center">
+            <div class="text-4xl font-bold text-cyan-600 mr-4">eeeCLOUD</div>
+            <div>
+                <button
+                    class="bg-cyan-600 text-white h-10 px-5 text-lg transition-colors duration-150 rounded-lg focus:shadow-outline">Standard</button>
+            </div>
+        </div>
+        <div class="flex justify-center">
+            <button class="flex flex-col items-center justify-center w-8 h-6 space-y-1 m-[auto]">
+                <span class="block w-6 h-0.5 bg-cyan-600"></span>
+                <span class="block w-6 h-0.5 bg-cyan-600"></span>
+                <span class="block w-6 h-0.5 bg-cyan-600"></span>
+            </button>
+            <button
+                class="bg-slate-300 text-white h-8 px-5 text-lg transition-colors duration-150 rounded-[5rem] focus:shadow-outline m-[auto] mr-4 ml-4">
+                テービーテック
+            </button>
+            <span class="content-center">ログインユーザー：kashiwazaki</span>
+            <a href="#" class="ml-4 text-gray"><button
+                    class="bg-slate-400 text-white h-10 px-5 text-lg transition-colors duration-150 rounded-lg focus:shadow-outline hover:bg-slate-500">ログアウト</button></a>
+        </div>
+    </div>
+    <div class="flex">
+        <div
+            class="text-white w-80 h-screen p-6 pt-10 mt0 text-3xl flex flex-col items-center bg-cyan-600 leading-[4rem] font-black">
+            <!-- style="background-color: rgb(0 144 167);" -->
+            <nav class="w-full">
+                <a href="#" class="block py-2 text-center">ホーム</a>
+                <a href="#" class="block py-2 text-center">在庫確認</a>
+                <a href="#" class="block py-2 text-center">データ登録</a>
+                <div class="ml-4 text-center">
+                    <a href="#" class="block py-2">出荷</a>
+                    <a href="#" class="block py-2">仕入</a>
+                    <a href="#" class="block py-2">その他調整</a>
+                </div>
+                <a href="#" class="block py-2 text-center">データ</a>
+                <a href="#" class="block py-2 text-center">スケジュール表</a>
+                <a href="#" class="block py-2 text-center">解析</a>
+                <a href="#" class="block py-2 text-center">設定</a>
+                <div class="ml-4 text-center">詳細設定</div>
+            </nav>
+        </div>
+        <div class="flex-1 p-6">
+            <h1 class="text-4xl font-black">出荷一覧</h1>
+            <div class="flex justify-between my-5">
+                <div>
+                    <span class="text-2xl font-semibold">状況 : </span>
+                    <span>
+                        <button
+                            class="text-2xl h-8 px-5 bg-transparent focus:bg-cyan-600 hover:bg-cyan-600/50 transition-colors duration-150 rounded-[5rem]">
+                            予定
+                        </button>
+                    </span>
+                    <span>
+                        <button
+                            class="text-2xl h-8 px-5 bg-transparent focus:bg-cyan-600 hover:bg-cyan-600/50 transition-colors duration-150 rounded-[5rem]">
+                            出荷済
+                        </button>
+                    </span>
+                    <span>
+                        <button
+                            class="text-2xl h-8 px-5 bg-transparent focus:bg-cyan-600 hover:bg-cyan-600/50 transition-colors duration-150 rounded-[5rem]">
+                            出荷済以外
+                        </button>
+                    </span>
+                    <span>
+                        <button
+                            class="text-2xl h-8 px-5 bg-transparent focus:bg-cyan-600 hover:bg-cyan-600/50 transition-colors duration-150 rounded-[5rem]">
+                            下書き
+                        </button>
+                    </span>
+                    <span>
+                        <button
+                            class="text-2xl h-8 px-5 bg-transparent focus:bg-cyan-600 hover:bg-cyan-600/50 transition-colors duration-150 rounded-[5rem]">
+                            すべて
+                        </button>
+                    </span>
+                </div>
+                <div>
+                    <button
+                        class="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] mr-4 ml-4">検索オプション</button>
+                </div>
+            </div>
+
+            <!-- search param -->
+            <div id="search-param" class="space-y-4 mx-10 my-8">
+                <div class=" flex justify-between border-b-2 border-white pb-2">
+                    <div class="flex-1 flex items-center">
+                        <label class="text-2xl font-normal w-60">出荷予定日</label>
+                        <input type="date" class="mx-2 border border-slate-500/50 rounded" name="" id="">
+                        <span>~</span>
+                        <input type="date" class="mx-2 border border-slate-500/50 rounded" name="" id="">
+                    </div>
+                    <div class="flex-1 flex items-center">
+                        <label class="text-2xl font-normal w-60">受注日</label>
+                        <input type="date" class="mx-2 border border-slate-500/50 rounded" name="" id="">
+                        <span>~</span>
+                        <input type="date" class="mx-2 border border-slate-500/50 rounded" name="" id="">
+                    </div>
+                </div>
+
+                <div class="flex justify-between border-b-2 border-white pb-2">
+                    <div class="flex-1 flex items-center">
+                        <label class="text-2xl font-normal w-60">出荷実績日</label>
+                        <input type="date" class="mx-2 border border-slate-500/50 rounded" name="" id="">
+                        <span>~</span>
+                        <input type="date" class="mx-2 border border-slate-500/50 rounded" name="" id="">
+                    </div>
+                    <div class="flex-1 flex items-center">
+                        <label class="text-2xl font-normal w-60">出荷倉庫・棚番</label>
+                        <select class="mx-2 border border-slate-500/50 rounded w-32" name="" id="">
+                            <option value=""></option>
+                        </select>
+                        <select class="mx-2 border border-slate-500/50 rounded w-28" name="" id="">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex justify-between border-b-2 border-white pb-2">
+                    <div class="flex-1 flex items-center">
+                        <label class="text-2xl font-normal w-60">納品先</label>
+                        <select class="mx-2 border border-slate-500/50 rounded w-32" name="" id="">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="flex-1 flex items-center">
+                        <label class="text-2xl font-normal w-60">製品コード</label>
+                        <select class="mx-2 border border-slate-500/50 rounded w-32" name="" id="">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex justify-between border-b-2 border-white pb-2">
+                    <div class="flex-1 flex items-center">
+                        <label class="text-2xl font-normal w-60">請求先</label>
+                        <select class="mx-2 border border-slate-500/50 rounded w-32" name="" id="">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="flex-1 flex items-center">
+                        <label class="text-2xl font-normal w-60">製品名</label>
+                        <input type="text" class="mx-2 border border-slate-500/50 rounded w-72">
+                    </div>
+                </div>
+
+                <div class="flex justify-between border-b-2 border-white pb-2">
+                    <div class="flex-1 flex items-center">
+                        <label class="text-2xl font-normal w-60">担当者</label>
+                        <select class="mx-2 border border-slate-500/50 rounded w-32" name="" id="">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="flex-1 flex items-center">
+                        <label class="text-2xl font-normal w-60">キーワード</label>
+                        <input type="text" class="mx-2 border border-slate-500/50 rounded w-72">
+                    </div>
+                </div>
+                <div class="flex justify-center py-4">
+                    <button
+                        class="bg-cyan-600 text-white h-10 px-5 text-lg transition-colors duration-150 rounded-lg focus:shadow-outline hover:bg-cyan-700">この条件で検索</button>
+                </div>
+            </div>
+
+            <!-- Table List -->
+            <div class="container mx-auto">
+                <div class="flex justify-between pb-3">
+                    <div>
+                        <button
+                            class="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] hover:bg-cyan-600/75">
+                            請求書
+                        </button>
+                        <button
+                            class="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] mr-4 ml-4 hover:bg-cyan-600/75">
+                            納品書
+                        </button>
+                        <button
+                            class="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded focus:shadow-outline m-[auto] hover:bg-cyan-600/75">
+                            出荷指示書
+                        </button>
+                    </div>
+                    <div>
+                        <button
+                            class="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded-[5rem] focus:shadow-outline m-[auto] hover:bg-cyan-600/75">
+                            一括で編集
+                        </button>
+                        <button
+                            class="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded-[5rem] focus:shadow-outline m-[auto] mr-4 ml-4 hover:bg-cyan-600/75">
+                            表示設定
+                        </button>
+                        <button
+                            class="bg-white border border-sky-500 text-sky h-8 px-5 text-lg transition-colors duration-150 rounded-full focus:shadow-outline m-[auto] hover:bg-cyan-600/75">
+                            …
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <table class="min-w-full bg-white border-collapse border border-gray-300 rounded-md shadow-md">
+                        <thead class="bg-cyan-600 text-white">
+                            <tr>
+                                <th class="py-2 px-4 border border-gray-300"> </th>
+                                <th class="py-2 px-4 border border-gray-300">管理番号</th>
+                                <th class="py-2 px-4 border border-gray-300">状況</th>
+                                <th class="py-2 px-4 border border-gray-300">出荷予定日</th>
+                                <th class="py-2 px-4 border border-gray-300">出荷実績日</th>
+                                <th class="py-2 px-4 border border-gray-300">引当</th>
+                                <th class="py-2 px-4 border border-gray-300">件名</th>
+                                <th class="py-2 px-4 border border-gray-300">取引先</th>
+                                <th class="py-2 px-4 border border-gray-300">予定数</th>
+                                <th class="py-2 px-4 border border-gray-300">実績数</th>
+                                <th class="py-2 px-4 border border-gray-300">残数</th>
+                                <th class="py-2 px-4 border border-gray-300">倉庫</th>
+                                <th class="py-2 px-4 border border-gray-300">棚番</th>
+                                <th class="py-2 px-4 border border-gray-300">担当者</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border border-gray-300">1</td>
+                                <td class="py-2 px-4 border border-gray-300">John Doe</td>
+                                <td class="py-2 px-4 border border-gray-300">john.doe@example.com</td>
+                                <td class="py-2 px-4 border border-gray-300">Admin</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td class="py-2 px-4 border border-gray-300">2</td>
+                                <td class="py-2 px-4 border border-gray-300">Jane Smith</td>
+                                <td class="py-2 px-4 border border-gray-300">jane.smith@example.com</td>
+                                <td class="py-2 px-4 border border-gray-300">User</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border border-gray-300">3</td>
+                                <td class="py-2 px-4 border border-gray-300">Alice Johnson</td>
+                                <td class="py-2 px-4 border border-gray-300">alice.johnson@example.com</td>
+                                <td class="py-2 px-4 border border-gray-300">Moderator</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                                <td class="py-2 px-4 border border-gray-300">--</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+
+</html>
